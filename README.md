@@ -2,12 +2,6 @@
 
 **Rescue Robot** — это 2D-игра, созданная на Qt, в которой игрок управляет роботом-спасателем, выполняющим миссии по спасению людей в опасной зоне.  
 Проект разработан для практики работы с Qt Widgets и Graphics View Framework, а также изучения анимации, сигналов и слотов, таймеров и обработки событий.
-[Посмотреть видео](/demonstration.mp4)
-
-<video width="630" height="300" controls>
-  <source src="https://github.com/CtacsGitForWork/cpp-qt-rescue-robot/blob/main/demonstration.mp4" type="video/mp4">
-  Ваш браузер не поддерживает встроенный видеоплеер.
-</video>
 
 ---
 
@@ -93,6 +87,7 @@ your-name-or-nick
 ---
 
 License: MIT
+
 
 
 
