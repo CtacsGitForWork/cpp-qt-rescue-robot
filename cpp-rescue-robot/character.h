@@ -1,11 +1,9 @@
 #pragma once
 
 #include <QDebug>
-//#include <typeinfo>
 #include <algorithm>
 
 #include "utility/assets.h"
-//#include "utility/random.h"
 #include "utility/animation.h"
 
 #include "field.h"
@@ -57,8 +55,7 @@ public:
 			}
 		}
 
-		double darkness = context.darkener.GetDarkness(char_pos);
-        //qDebug() << typeid(*this).name() << "::Draw darkness = " << darkness;
+		double darkness = context.darkener.GetDarkness(char_pos);        
         context.painter.DrawObject(*asset, char_pos, darkness);
     }
 	
@@ -66,8 +63,7 @@ public:
         if (transition_) {
             return true;
         }
-        return false;
-      //  return transition_.has_value();
+        return false;    
 	}
 	
 	virtual int GetStepDuration() const {
@@ -75,14 +71,9 @@ public:
 	}
 
 	CoordinateF GetExactPos () const override {
-        /*if (!transition_.has_value()) {
-			return CoordinateF(GetPosition());
-
-        }*/
         if (transition_) {
             return transition_->GetPosition();
-        }
-        //return transition_.value().GetPosition();        
+        }        
         return GetPosition();
 	}
 	
@@ -123,31 +114,6 @@ public:
 
     }
 	
-    /*
-	void DoTransition(Direction dir, Callback at_end_action = {}) {
-		if (transition_.has_value()) {
-			transition_.value().StopNow();
-			transition_.reset();
-		}
-		
-		auto cur_pos = GetPosition();
-		auto dst_pos = cur_pos + Coordinate::FromDirection(dir);
-		SetTargetPosition(dst_pos);
-		
-        auto post_effect_action = [=]() {
-			SetPosition(dst_pos);
-			at_end_action();
-		};
-		
-        transition_.emplace( Transition<CoordinateF>(
-			GetContext().timer,
-			CoordinateF(cur_pos),
-			CoordinateF(dst_pos),
-			200,					// Duration.
-			post_effect_action
-        ));
-    }*/
-
     void DoTransition(Direction dir, Callback at_end = {}) {
         if (transition_) {
             transition_->StopNow();            
@@ -182,3 +148,4 @@ private:
 	// Когда перемещаемся между двумя клетками.
     std::optional<Transition<CoordinateF>> transition_;
 };
+
