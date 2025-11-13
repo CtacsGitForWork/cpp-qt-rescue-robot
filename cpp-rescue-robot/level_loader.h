@@ -4,8 +4,6 @@
 #include "context.h"
 #include "field.h"
 #include "game.h"
-//#include "characters.h"
-//#include "objects.h"
 #include "player.h"
 #include <QJsonObject>
 #include <QJsonArray>
@@ -123,17 +121,6 @@ public:
             return false;
         }
 
-        /*try {
-            QByteArray data = file.readAll();
-            Load(game, QJsonDocument::fromJson(data).object());
-        } catch (const QJsonParseError& error) {
-            qWarning() << QString("JSON parse error ") + error.errorString();
-            return false;
-        } catch(const std::exception& error) {
-            qInfo() << QString("Error parsing game data ") + error.what();
-            return false;
-        }*/
-
         QByteArray data = file.readAll();
         QJsonParseError error;
         QJsonDocument doc = QJsonDocument::fromJson(data, &error);
@@ -143,9 +130,7 @@ public:
         }
 
         Load(game, doc.object());
-
-       // qWarning() << "Loaded JSON structure: " << doc;
-
+        
         return true;
     }
 
@@ -179,9 +164,6 @@ public:
                 for (auto walls_value : walls) {
                     auto wall = walls_value.toObject();
 
-                  //  qWarning() << "Loading wall:" << wall["wall"].toString()
-                 //              << " at position" << wall["pos"].toArray();
-
                     AddWalls(game, floor_object, LoadData<Coordinate>(wall["pos"]), wall["length"].toInt(), LoadData<Direction>(wall["dir"]), LoadData<Direction>(wall["dir"]), wall["wall"]);
                 }
             }
@@ -206,16 +188,11 @@ public:
 private:
     void AddWalls(Game& game, Floor& floor, Coordinate2D pos, int length, Direction line_dir, Direction wall_dir, const QJsonValue& data) {
         for (auto i = 0; i < length; i++) {
-            auto where = pos + Coordinate2D(Coordinate::FromDirection(line_dir)) * i;
+            auto where = pos + Coordinate2D(Coordinate::FromDirection(line_dir)) * i;        
 
-           // qWarning() << "Passing to Loader<Wall>: " << data;
-
-qDebug() << "Wall data type:" << data.type() << ", content:" << data;
+            qDebug() << "Wall data type:" << data.type() << ", content:" << data;
+            
             auto wall = Loader<Wall>::Load(data, game.GetContext(), &floor);
-
-
-           // qWarning() << "Placing wall of type:" << &wall << " at position " << &where;
-
             floor.SetWall(where, wall_dir, wall);
         }
     }
