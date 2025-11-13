@@ -54,13 +54,6 @@ struct GrassLoader {
 struct DoorLoader {
     DoorLoader() {
         Loader<Wall>::AddLoader("door", [](const QJsonObject &json, GameContext& context, Floor*) {
-           /* if (!json["wall"].isNull()) {
-                auto object_name = json["key"].toString();
-                auto object_color = QColor::fromString(json["color"].toString());
-                return std::make_shared<Door>(context, object_name.toStdString(), object_color);
-            }
-            return std::make_shared<Door>();*/
-
             // Парсим параметры из самого объекта двери (не из вложенного "wall")
             std::optional<std::string> key_name;
             if (json.contains("key")) {
