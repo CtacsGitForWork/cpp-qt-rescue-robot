@@ -1,7 +1,6 @@
 #pragma once
 
 #include "character.h"
-//#include "player.h"
 #include "utility/random.h"
 
 enum Phase {
@@ -29,11 +28,8 @@ public:
         if (steps_ > 0 && CanPassWall(GetDirection()) && CanGo(GetDirection())) {
             steps_--;
             DoTransition(GetDirection(), [this](){NextStep(); });
-
-           // return;
-        } else {
-
-       // if (steps_ < 1  || !(CanPassWall(GetDirection()) && CanGo(GetDirection()))) {
+          
+        } else {      
             auto dirs = std::vector{
                 Direction::kDown, Direction::kLeft,
                 Direction::kRight, Direction::kUp
@@ -44,11 +40,8 @@ public:
 
             steps_ = GetContext().random.GetInRange(2, 8);
 
-            Wait([this](){NextStep();});           
-           // steps_--;
+            Wait([this](){NextStep();});         
         }
-
-
     }
 
     void MakeFollowStep() {
@@ -88,3 +81,4 @@ private:
     int steps_ = GetContext().random.GetInRange(2, 8);
     Timer::Guard guard_{};
 };
+
