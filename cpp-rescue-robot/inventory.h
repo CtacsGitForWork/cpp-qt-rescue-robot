@@ -134,12 +134,6 @@ public:
     // Найти предмет по условию.
     template<class Comp>
     InventoryObject* FindItem(Comp compare) const {
-       /* auto it = std::find_if(inventory_.begin(), inventory_.end(), compare);
-        if (it != inventory_.end()) {
-            return it->get();
-        }
-        return nullptr;*/
-
         try {
             auto it = std::find_if(inventory_.begin(), inventory_.end(), compare);
             return it != inventory_.end() ? it->get() : nullptr;
