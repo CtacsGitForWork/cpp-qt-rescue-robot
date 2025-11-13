@@ -12,10 +12,6 @@ MainWindow::MainWindow(Game& game, Controller& controller, QWidget* parent)
     , timer_for_40ms_{ new prac::QTimer(this) }
 {
     ui->setupUi(this);
-   // controller_.SetRedrawCallback([this, last_draw = std::optional<std::chrono::steady_clock::time_point>{}]() mutable {
-    //    repaint();
-    //    });
-
     controller_.SetRedrawCallback([this]() {
         this->repaint();
     });
@@ -89,9 +85,6 @@ void MainWindow::paintEvent(QPaintEvent* /*event*/) {
 
     painter.PreparePaint(player_pos, field_size, window_size);
     game_.DrawFrame(draw_context);
-
-    // 2. Отрисовка инвентаря поверх всего
-   // DrawInventory(painter);
 }
 
 void MainWindow::on_timerTimeout() {
@@ -109,19 +102,7 @@ void MainWindow::DrawInventory(Painter& painter) {
             continue;
         }
 
-       /* try {
-            painter.DrawInventoryItem(offset, dynamic_cast<const InventoryKey&>(*item).GetAsset());
-            offset += 50; // Смещение для следующего предмета
-        }
-        catch (const std::bad_cast&) {
-            qWarning() << "Failed to draw non-key inventory item";
-        }
-        catch (const std::exception& e) {
-            qCritical() << "Inventory draw error:" << e.what();
-        }*/
-
-        try {
-            //const auto* key = dynamic_cast<const InventoryKey*>(item.get());
+        try {            
             const InventoryKey* key = item->AsKey();
             if (key) {
                 painter.DrawInventoryItem(offset, key->GetAsset());
@@ -134,3 +115,4 @@ void MainWindow::DrawInventory(Painter& painter) {
         }
     }
 }
+
