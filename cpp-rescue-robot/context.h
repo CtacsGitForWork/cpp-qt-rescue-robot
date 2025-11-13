@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "inventory.h"
 #include "utility/utility.h"
 #include "utility/timer.h"
 
