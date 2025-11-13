@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <QDebug>
-//#include <typeinfo>
 
 #include "utility/utility.h"
 #include "utility/painter.h"
@@ -36,8 +35,7 @@ public:
 
 public:
     virtual void Draw(Coordinate pos, DrawContext& context) const {
-        double darkness = context.darkener.GetDarkness(CoordinateF(pos));
-        //qDebug() << typeid(*this).name() << "::Draw darkness = " << darkness;
+        double darkness = context.darkener.GetDarkness(CoordinateF(pos));       
         context.painter.DrawFloor(GetAsset(), pos, darkness);
     }
 };
@@ -50,8 +48,7 @@ public:
     virtual bool CanPass(const Character& character, Direction dir) const = 0;
     virtual void Interact(Character&, Direction) {};
     virtual void Draw(DrawContext& context, Coordinate pos, Orientation dir) const {
-        double darkness = context.darkener.GetDarkness(CoordinateF(pos));
-        //qDebug() << typeid(*this).name() << "::Draw darkness = " << darkness;
+        double darkness = context.darkener.GetDarkness(CoordinateF(pos));       
 
         if (GetAsset().pixmap.isNull()) {
             qCritical() << "[Wall] Pixmap is NULL for door at" << pos.x_pos << pos.y_pos;
@@ -192,3 +189,4 @@ private:
     int height_ = 0;
     std::map<int, Floor> levels_{};
 };
+
