@@ -9,7 +9,7 @@ https://github.com/user-attachments/assets/72f21388-a74b-45f7-b92f-c6b0a53d5bb9
 
 Загрузка геометрии уровней и координат начального положения персонажей и объектов производится из JSON-фаилов. На данный момент пока реализовано только два уровня(этажа) с возможностью перехода между ними. 
 
-https://github.com/user-attachments/assets/3edc302a-da65-4c17-99bf-aad6b1e44d24
+https://github.com/user-attachments/assets/c1856499-4929-425b-8732-ec82b045ca34
 
 
 
@@ -56,6 +56,7 @@ https://github.com/user-attachments/assets/3edc302a-da65-4c17-99bf-aad6b1e44d24
 - [ ] Ввести главное меню и экран настроек  
 - [ ] Добавить звуковое сопровождение
 - [ ] Добавить сохранение прогресса через QSettings
+
 
 
 
