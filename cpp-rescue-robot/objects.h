@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QDebug>
-//#include <typeinfo>
 
 #include "context.h"
 #include "inventory.h"
@@ -38,8 +37,7 @@ public:
         }
 
         Asset asset = sprites_.value().Get(dir_);
-		double darkness = context.darkener.GetDarkness(CoordinateF(GetPosition()));
-        //qDebug() << typeid(*this).name() << "::Draw darkness = " << darkness;
+		double darkness = context.darkener.GetDarkness(CoordinateF(GetPosition()));       
         context.painter.DrawObject(asset, CoordinateF(GetPosition()), darkness);
     }
 
@@ -65,15 +63,6 @@ public:
         sprite_.ChangeColor(color);
     }
 
-  /*  void Interact(Character& character, Direction) override {
-        if (character.IsPlayer()) {
-            //auto key = std::make_shared<InventoryKey>(GetContext(), name_, sprite_.GetColor());
-            auto key = std::make_shared<InventoryKey>(GetContext(), name_, color_);
-            GetContext().inventory.Store(key);
-            Disappear();
-        }
-    }*/
-
     void Interact(Character& character, Direction) override {
         if (!character.IsPlayer() || !IsVisible()) {
             qWarning() << "Failed to store key in inventory";
@@ -83,10 +72,8 @@ public:
             // Создаем копию имени и цвета перед Disappear()
             std::string key_name = name_;
             QColor key_color = color_;
-
-            //Disappear(); // Сначала исчезаем с карты
-        try {
-            //auto key = std::make_shared<InventoryKey>(GetContext(), key_name, key_color);
+            
+        try {            
             auto inv_key = std::make_shared<InventoryKey>(GetContext(), name_, color_);
 
             // Проверяем, что ключ создан корректно
@@ -122,15 +109,9 @@ public:
         frame_timer_{context.timer}    {
         sprites_ = context.asset_loader.LoadAnimatedObject("objects", "fire/", 20);
 
-       /* auto update_frame = [this]() {
-            current_frame_ = (current_frame_ + 1) % sprites_.frames.size();
-            //frame_timer_.PlanCallback(frame_timer_.Now() + 40, update_frame);
-        };*/
-        //frame_timer_.PlanCallback(frame_timer_.Now() + 40, update_frame);
-
         auto result = frame_timer_.PlanCallback(frame_timer_.Now() + 40, [this]() {
             current_frame_ = (current_frame_ + 1) % sprites_.frames.size();
-           auto inner_result = frame_timer_.PlanCallback(frame_timer_.Now() + 40, [this]() {
+            auto inner_result = frame_timer_.PlanCallback(frame_timer_.Now() + 40, [this]() {
                 current_frame_ = (current_frame_ + 1) % sprites_.frames.size();
             });
         });
@@ -187,3 +168,4 @@ public:
 private:
     Asset sprite_;
 };
+
