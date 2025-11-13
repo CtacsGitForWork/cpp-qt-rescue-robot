@@ -30,31 +30,19 @@ public:
 
         if (!CanPassWall(dir)) {
             qInfo() << "Player stoped on wall";
-              GetContext().field.GetFloor(target_position.z_pos).GetWall(Coordinate2D(target_position), dir)->Interact(*this, dir);
-
-            //for (auto& object : GetContext().object_map.Get(GetPosition() + Coordinate::FromDirection(dir))) {
-            //    object->Interact(*this, dir);
-            //}
-
+            GetContext().field.GetFloor(target_position.z_pos).GetWall(Coordinate2D(target_position), dir)->Interact(*this, dir);
             return;
         }
 
         if (!CanGo(dir)) {
             qInfo() << "Player stoped on object";
-            /* auto objects = GetContext().object_map.Get(target_position + Coordinate::FromDirection(dir));
-             for (const auto& obj : objects) {
-                 obj->Interact(*this, dir);
-             }*/
-
             for (auto& object : GetContext().object_map.Get(GetPosition() + Coordinate::FromDirection(dir))) {
                 object->Interact(*this, dir);
             }
-
             return;
         }
 
-        qInfo() << "Player moves";
-        //SetPosition(target_position + Coordinate::FromDirection(dir));
+        qInfo() << "Player moves";        
         DoTransition(dir, post_action);
     }
 };
