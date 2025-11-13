@@ -33,10 +33,8 @@ public:
                    arg(QString::fromStdString(ToString(dir)));
     }
 
-    void OnReleaseMoveKey(Direction) {
-        //if (dir_.has_value()) {
-            dir_.reset();
-       // }
+    void OnReleaseMoveKey(Direction) {       
+            dir_.reset();    
     }
 
     void SetRedrawCallback(const std::function<void()>& callback) {
@@ -70,3 +68,4 @@ private:
     std::optional<Direction> dir_;
     std::function<void()> callback_;
 };
+
