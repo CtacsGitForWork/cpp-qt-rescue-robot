@@ -35,8 +35,6 @@ public:
     }
 
 	// Отрисовывем объект.
-    //virtual void Draw(DrawContext& context) const = 0;
-
     virtual void Draw(DrawContext&) const {
         if (!IsVisible()) return;
 
@@ -78,19 +76,6 @@ public:
         PlaceToMap(target_position_.value());
 	}
 
-    /*void Disappear() {
-        if (!visibility_) return; // Уже невидим
-
-        qDebug() << "Object disappeared at" << position_.x_pos << position_.y_pos;
-        visibility_ = false;
-        RemoveFromMap(position_);
-        position_ = Coordinate{-1, -1, -1}; // Невалидная позиция
-        if (target_position_) {
-            RemoveFromMap(target_position_.value());
-            target_position_.reset();
-        }
-    }*/
-
     void Disappear() {
         if (!visibility_) return;  // Уже невидим
 
@@ -109,14 +94,8 @@ public:
 
         // Не трогаем position_ напрямую — он остаётся как есть
         // Можно будет использовать для отладки, если нужно
-
-        visibility_ = false;
-      //  removed_ = true;  // Новый флаг, говорящий, что объект больше не участвует в логике
+        visibility_ = false;     
     }
-
-
-
-
 
     bool IsVisible() const {
         return visibility_;
@@ -127,13 +106,11 @@ public:
     }
 
 private:
-    void RemoveFromMap(Coordinate position) {
-       // qDebug() << "[Object] RemoveFromMap:" << position.x_pos << position.y_pos << position.z_pos << "ptr:" << this;
+    void RemoveFromMap(Coordinate position) {      
         context_.object_map.Remove(position, this);
     }
 
-    void PlaceToMap(Coordinate position) {
-        //qDebug() << "[Object] PlaceToMap:" << position.x_pos << position.y_pos << position.z_pos << "ptr:" << this;
+    void PlaceToMap(Coordinate position) {       
         context_.object_map.Place(position, this);
     }
 
@@ -145,3 +122,4 @@ private:
 	std::optional<Coordinate> target_position_;
     bool visibility_ = true;
 };
+
