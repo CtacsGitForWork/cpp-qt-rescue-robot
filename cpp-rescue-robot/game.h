@@ -84,10 +84,6 @@ public:
 
 
     void AddObject(const std::shared_ptr<Object> object) {
-        // Страховка на всякий случай.
-        //if (object == nullptr) {
-        //    return;
-       // }
         if (!object) {
             qWarning() << "Tried to add nullptr object";
             return;
@@ -104,8 +100,7 @@ public:
 private:
     ObjectMap<Object> object_map_;
     AssetLoader asset_loader_{};
-    Field field_;
-    //AssetLoader asset_loader_{};
+    Field field_; 
     RandomGen random_;
     Timer timer_;
     Inventory inventory_;  // Добавляем инвентарь
@@ -113,3 +108,4 @@ private:
     std::shared_ptr<Player> player_ = nullptr;
     std::vector<std::shared_ptr<Object>> objects_{};
 };
+
