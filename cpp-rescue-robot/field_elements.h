@@ -8,25 +8,16 @@
 #include "utility/random.h"
 #include "darkener.h"
 
-// Так нужно сделать, чтобы тесты скомпелировались.
-//#include "darkeners.h"
-
 #include "field.h"
 #include "character.h"
 
 class FloorTile : public Tile {
 public:
     using Tile::Tile;
-	FloorTile(GameContext& context, const std::string& asset_name) {
-       // qDebug() << "Loading floor tile:" << QString::fromStdString(asset_name);
-        Asset asset = context.asset_loader.LoadTile("floors", asset_name);
-        
-		// Как это сделает пол неоднородным?
-		// Плитку повернули: 0 - не повернули, 1 - вправо на 90 градусов,
-		// 2 - вправо на 180 градусов, 3 - вправо на 270 градусов.
+	FloorTile(GameContext& context, const std::string& asset_name) {      
+        Asset asset = context.asset_loader.LoadTile("floors", asset_name);        
         int right_angels = context.random.GetRandomElem<int>({0, 1, 2, 3});
-        asset.Rotate(right_angels);
-		
+        asset.Rotate(right_angels);		
 		SetAsset(asset);
     }
 };
@@ -53,8 +44,6 @@ public:
             qDebug() << "Door created with default color";
         }
             SetAsset(asset);
-
-
         qDebug() << "=== Door created ===";
         qDebug() << "Position: [5, 10] (hardcoded for debug)";
         qDebug() << "Key:" << (key ? QString::fromStdString(*key) : "None");
@@ -66,27 +55,11 @@ public:
 		if (is_opened_) {
 			return;
 		}
-		
-		// Draws only closed door.
-        //const QColor door_color{100, 100, 100, 128};
-        //const QColor edge_color{50, 50, 100, 128};
-        //const int edge_width = 1;
-        //double darkness = context.darkener.GetDarkness(CoordinateF(pos));
-        //qDebug() << typeid(*this).name() << "::Draw darkness = " << darkness;
-
-
         // Используем цвет из JSON, если он задан, иначе стандартный серый
-        QColor door_color = color_ ? *color_ : QColor(100, 100, 100, 200);
-        //QColor door_color = GetAsset().pixmap.toImage().pixelColor(0, 0);
+        QColor door_color = color_ ? *color_ : QColor(100, 100, 100, 200);       
         QColor edge_color = QColor(50, 50, 100, 128);
         const int edge_width = 2;
         double darkness = context.darkener.GetDarkness(CoordinateF(pos));
-
-
-        // Рисуем одну створку двери
-       // CoordinateF p1 = pos;
-       // CoordinateF p2 = p1 + CoordinateF{0, 0, 1};
-       // CoordinateF p3 = p2 + CoordinateF(Coordinate::FromOrientation(dir));
 
         // Определяем точки для прямоугольника в зависимости от направления
         CoordinateF p1 = pos;
@@ -100,33 +73,10 @@ public:
         }
 
         context.painter.DrawRect(p1, p2, p3, door_color, edge_color, edge_width, darkness);
-        /*{
-			// Первая створка.
-			CoordinateF p1 = pos;
-			CoordinateF p2 = p1 + CoordinateF{0, 0, 1};
-			CoordinateF p3 = p2 + CoordinateF(Coordinate::FromOrientation(dir)) * 0.5;
-			context.painter.DrawRect(p1, p2, p3, door_color, edge_color, edge_width, darkness);
-		}
-		
-		{
-			// Вторая створка.
-			CoordinateF p1 = pos + Coordinate::FromOrientation(dir);
-			CoordinateF p2 = p1 + CoordinateF{0, 0, 1};
-			CoordinateF p3 = p2 - CoordinateF(Coordinate::FromOrientation(dir)) * 0.5;
-			context.painter.DrawRect(p1, p2, p3, door_color, edge_color, edge_width, darkness);
-        }*/
 	}
 	
-    /*void Interact(Character& character, Direction) override {
-        if (character.IsActive()) {
-            qInfo() << "Opening door";
-            is_opened_ = true;
-        }
-    }*/
-
     void Interact(Character& character, Direction) override {
-        if (character.IsPlayer() && character.IsActive()) {
-            //if (!key_ || GetContext().inventory.FindItem([this](auto item) {
+        if (character.IsPlayer() && character.IsActive()) {         
             // Проверяем наличие ключа в инвентаре
             auto* key_item = character.GetContext().inventory.FindItem(
                 [this](const auto& item) {
@@ -182,7 +132,7 @@ public:
     using Wall::Wall;
 	EdgeWall(GameContext& context) {
         Asset asset = context.asset_loader.LoadTile("walls", "wall-white");
-        SetAsset(asset);	// Пока лучше не придумал. Метод базавого класса.
+        SetAsset(asset);	
     }
 
 public:
@@ -190,3 +140,4 @@ public:
         return false;
     }
 };
+
